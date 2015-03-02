@@ -1,1 +1,21 @@
 #!/bin/bash
+
+# Integrate squire functionality for now
+AWKPATH_ROOT=$(readlink -m "${BASH_SOURCE%/*}/../lib")
+
+# say_hello will be exported to awk subshell for testing purposes
+function say_hello() {
+  echo "hello $(whoami)"
+}
+
+export -f say_hello
+
+function build_awkpath() {
+  awkpath_root=$1
+  find $awkpath_root -type f -name '*.awk'|sed -r -e 's/(.+)(\/.*.awk$)/\1/g'|uniq|tr '\n' ':'|sed -r -e 's/(.+)(:$)/\1/g'
+}
+
+export AWKPATH=$(build_awkpath $AWKPATH_ROOT)
+echo $AWKPATH
+
+awk -f 'ebash.awk' "$(readlink -m ${BASH_SOURCE%/*}/../examples/example.esh)"

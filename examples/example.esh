@@ -1,0 +1,5 @@
+# This is a regular comment free of any manipulation by ebash
+config_value1 = "Hello"
+config_value2 = "world"
+config_hostname = <%= hostname %>
+<%= say_hello %>
